@@ -12,8 +12,8 @@ import axios from "axios";
 interface CheckoutModalProps {
   isOpen: boolean;
   onClose: () => void;
-    totalCheckoutAmount: number;
-    cartItems: { name: string; quantity: number }[];
+  totalCheckoutAmount: number;
+  cartItems: { name: string; quantity: number }[];
 }
 
 const schema = z.object({
@@ -34,30 +34,30 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, totalChe
   });
 
   const handleCheckout = async (data: any) => {
-   
-      const updatedData = {
-          ...data, totalCheckoutAmount: totalCheckoutAmount,
-          itemName: cartItems.map(item => item.name), itemQuantity: cartItems.map(item => item.quantity),
-          quantity: cartItems.map(item => item.quantity ),
-      }
 
-      const response = await axios.post("http://localhost:3000/api/orders", updatedData);
-     
-      if (response.status === 201) {
-        toast.success("Checkout successful!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-      dispatch(clearCart());
-      onClose();
-    };
+    const updatedData = {
+      ...data, totalCheckoutAmount: totalCheckoutAmount,
+      itemName: cartItems.map(item => item.name), itemQuantity: cartItems.map(item => item.quantity),
+      quantity: cartItems.map(item => item.quantity),
+    }
+
+    const response = await axios.post("https://ecom-site-livid.vercel.app/api/orders", updatedData);
+
+    if (response.status === 201) {
+      toast.success("Checkout successful!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    dispatch(clearCart());
+    onClose();
+  };
 
   if (!isOpen) return null;
 
@@ -85,7 +85,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, totalChe
                   </>
                 )}
               />
-              
+
               <Controller
                 name="lastName"
                 control={control}
@@ -96,7 +96,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, totalChe
                   </>
                 )}
               />
-              
+
               <Controller
                 name="streetAddress"
                 control={control}
@@ -107,7 +107,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, totalChe
                   </>
                 )}
               />
-              
+
               <Controller
                 name="city"
                 control={control}
@@ -119,7 +119,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, totalChe
                 )}
               />
               {errors.city && <div className="text-red-500">{errors.city.message}</div>}
-              
+
               <Controller
                 name="phone"
                 control={control}
@@ -131,7 +131,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, totalChe
                 )}
               />
               {errors.phone && <div className="text-red-500">{errors.phone.message}</div>}
-              
+
               <Controller
                 name="email"
                 control={control}
@@ -143,7 +143,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, totalChe
                 )}
               />
               {errors.email && <span className="text-red-500">{errors.email.message}</span>}
-              
+
               <Controller
                 name="additionalInfo"
                 control={control}
@@ -184,7 +184,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, totalChe
               className="mt-6 w-full bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 transition"
               onClick={handleSubmit(handleCheckout)}
             >
-              Place Order 
+              Place Order
             </button>
           </div>
         </div>
